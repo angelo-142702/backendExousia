@@ -10,6 +10,7 @@ require('./models'); // register all models and associations
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.set('trust proxy', 1);
 // ===== MIDDLEWARE =====
 app.use(helmet());
 app.use(cors({
