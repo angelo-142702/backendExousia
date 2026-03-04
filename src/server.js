@@ -12,8 +12,23 @@ const PORT = process.env.PORT || 3001;
 
 app.set('trust proxy', true);
 // ===== MIDDLEWARE =====
+const frontendURL = 'https://exousia-herencia.vercel.app'; // ¡CAMBIA ESTO POR TU URL REAL!
+
+// 2. Configura las opciones de CORS
+const corsOptions = {
+  origin: frontendURL, // <--- Aquí va tu dominio de Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Asegúrate de incluir OPTIONS
+  allowedHeaders: ['Content-Type', 'Authorization'], // Los headers que tu frontend envíe
+  credentials: true, // ¡IMPORTANTE! Si usas cookies o autenticación con sesiones
+};
+
+// 3. Aplica el middleware de CORS a TODAS las rutas
+app.use(cors(corsOptions));
+
+// 4. (Opcional pero altamente recomendado) Manejo explícito de OPTIONS
+app.options('*', cors(corsOptions));
+
 app.use(helmet());
-app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
